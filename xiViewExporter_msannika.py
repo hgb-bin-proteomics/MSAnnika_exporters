@@ -143,7 +143,7 @@ class MSAnnika_Exporter:
 
     # export function, takes one argument "output_file" which sets the prefix
     # of generated output files
-    def export(self, output_file = None, format = "xiNET") -> None:
+    def export(self, output_file = None, format = "xiVIEW") -> None:
         csv = self.__generate_csv_df()
         fasta = self.__generate_fasta_str()
 

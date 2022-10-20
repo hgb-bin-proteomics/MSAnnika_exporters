@@ -18,7 +18,7 @@ DESCRIPTION:
 A Proteome Discoverer Scripting Node to export MS Annika results to xiNET
 input files (CSV + FASTA).
 USAGE:
-xiNetExporter_msannika.py NODEARGS
+xiNetExporter_msannikaPD.py NODEARGS
 """
 
 # Exporter class with constructor that takes Crosslink pandas dataframe as

@@ -1,0 +1,2 @@
+Proteins: Accession, Description, Sequence
+Crosslinks: Accession A, Sequence A, Accession B, Sequence B, Best CSM Score, Decoy, Confidence

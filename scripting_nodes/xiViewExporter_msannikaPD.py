@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Exporter of MS Annika Crosslink Results to xiNET Format - PD Scripting Node
+# Exporter of MS Annika Crosslink Results to xiVIEW Format - PD Scripting Node
 # 2022 (c) Micha Johannes Birklbauer
 # https://github.com/michabirklbauer/
 # micha.birklbauer@gmail.com
@@ -11,14 +11,14 @@ import pandas as pd
 from typing import List
 
 __version = "1.0.0"
-__date = "20221018"
+__date = "20221020"
 
 """
 DESCRIPTION:
-A Proteome Discoverer Scripting Node to export MS Annika results to xiNET
+A Proteome Discoverer Scripting Node to export MS Annika results to xiVIEW
 input files (CSV + FASTA).
 USAGE:
-xiNetExporter_msannikaPD.py NODEARGS
+xiViewExporter_msannikaPD.py NODEARGS
 """
 
 # Exporter class with constructor that takes Crosslink pandas dataframe as
@@ -74,53 +74,52 @@ class MSAnnika_Exporter:
             peptide_positions = peptide_positions + str(pos_in_protein + 1) + ";"
         return peptide_positions.rstrip(";")
 
+    def __get_xl_position_in_protein(self, sequence: str, identifiers_str: str) -> str:
+        identifiers = identifiers_str.split(";")
+        protein_positions = ""
+        for identifier in identifiers:
+            protein = self.database[identifier]["sequence"]
+            pep_pos_in_protein = protein.find(self.__clean_sequence(sequence))
+            xl_pos_in_pep = self.__get_xl_position(sequence)
+            # we don't have to add the +1 for one-based position here
+            # since pep_pos_in_protein + xl_pos_in_pep = xl_pos_in_protein + 1
+            protein_positions = protein_positions + str(pep_pos_in_protein + xl_pos_in_pep) + ";"
+        return protein_positions.rstrip(";")
+
     def __generate_csv_df(self) -> pd.DataFrame:
 
         # columns
+        AbsPos1 = []
+        AbsPos2 = []
         Protein1 = []
-        PepPos1 = []
-        PepSeq1 = []
-        LinkPos1 = []
         Protein2 = []
-        PepPos2 = []
-        PepSeq2 = []
-        LinkPos2 = []
+        Decoy1 = []
+        Decoy2 = []
         Score = []
-        Id = []
-
-        xl_id = 1
 
         for df in [self.input_files]:
             for i, row in df.iterrows():
                 if str(row["Decoy"]).lower() == "false" and str(row["Confidence"]) == "High":
                     if self.__get_proteins(row["Accession A"]) != "" and self.__get_proteins(row["Accession B"]) != "":
+                        AbsPos1.append(self.__get_xl_position_in_protein(row["Sequence A"], self.__get_proteins(row["Accession A"])))
+                        AbsPos2.append(self.__get_xl_position_in_protein(row["Sequence B"], self.__get_proteins(row["Accession B"])))
                         Protein1.append(self.__get_proteins(row["Accession A"]))
-                        PepPos1.append(self.__get_peptide_positions(row["Sequence A"], self.__get_proteins(row["Accession A"])))
-                        PepSeq1.append(self.__clean_sequence(row["Sequence A"]))
-                        LinkPos1.append(self.__get_xl_position(row["Sequence A"]))
                         Protein2.append(self.__get_proteins(row["Accession B"]))
-                        PepPos2.append(self.__get_peptide_positions(row["Sequence B"], self.__get_proteins(row["Accession B"])))
-                        PepSeq2.append(self.__clean_sequence(row["Sequence B"]))
-                        LinkPos2.append(self.__get_xl_position(row["Sequence B"]))
                         Score.append(row["Best CSM Score"])
-                        Id.append(xl_id)
-                        xl_id += 1
 
-        result = pd.DataFrame({"Protein1": Protein1, "PepPos1": PepPos1, "PepSeq1": PepSeq1, "LinkPos1": LinkPos1,
-                               "Protein2": Protein2, "PepPos2": PepPos2, "PepSeq2": PepSeq2, "LinkPos2": LinkPos2,
-                               "Score": Score, "Id": Id})
+        result = pd.DataFrame({"AbsPos1": AbsPos1, "AbsPos2": AbsPos2, "Protein1": Protein1, "Protein2": Protein2, "Score": Score})
 
         return result
 
     def __generate_fasta_str(self) -> str:
         fasta_str = ""
         for key in self.database:
-            fasta_str = fasta_str + ">" + key + " " + self.database[key]["description"] + "\n" + self.database[key]["sequence"] + "\n"
+            fasta_str = fasta_str + ">" + self.database[key]["description"] + "\n" + self.database[key]["sequence"] + "\n"
         return fasta_str
 
     # export function, takes one argument "output_file" which sets the prefix
     # of generated output files
-    def export(self, output_file = None, format = "xiNET") -> None:
+    def export(self, output_file = None, format = "xiVIEW") -> None:
         csv = self.__generate_csv_df()
         fasta = self.__generate_fasta_str()
 
@@ -173,11 +172,11 @@ def get_data_from_PD() -> dict:
     result["files"] = crosslinks_df
     result["fasta"] = generate_fasta_from_PD(proteins_df)
     result["ignore"] = []
-    result["output"] = ".".join(resultfile_path.split(".")[:-1]) + "_xiNET"
+    result["output"] = ".".join(resultfile_path.split(".")[:-1]) + "_xiVIEW"
 
     return result
 
-# initialize exporter and export xiNET files
+# initialize exporter and export xiVIEW files
 def main() -> None:
 
     args = get_data_from_PD()

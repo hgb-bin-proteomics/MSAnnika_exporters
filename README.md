@@ -1,6 +1,6 @@
-# MSAnnika_exporters
+# MS Annika Exporters
 
-Export MS Annika crosslink results to different formats.
+Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink results to different file formats.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ Python 3.7+ installation with pandas and biopython.
 ## Export to [xiNET](https://crosslinkviewer.org/)
 
 ```
-DESCRIPTION:
+EXPORTER DESCRIPTION:
 A script to export MS Annika results to xiNET input files (CSV + FASTA).
 USAGE:
 xiNetExporter_msannika.py f [f ...]
@@ -47,7 +47,7 @@ python xiNetExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "20200121
 ## Export to [xiVIEW](https://xiview.org/xiNET_website/index.php)
 
 ```
-DESCRIPTION:
+EXPORTER DESCRIPTION:
 A script to export MS Annika results to xiVIEW input files (CSV + FASTA).
 USAGE:
 xiViewExporter_msannika.py f [f ...]
@@ -83,7 +83,7 @@ python xiViewExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "2020012
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)
 
 ```
-DESCRIPTION:
+EXPORTER DESCRIPTION:
 A script to export MS Annika results to PyXlinkViewer format for visualizing
 crosslinks in pyMOL.
 USAGE:
@@ -143,3 +143,17 @@ Re-running the consensus worklflow should create the xiNET/xiVIEW files in the s
 ## Known Issues
 
 [List of known issues](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/issues)
+
+## Citing
+
+If you are using MS Annika please cite:
+```
+MS Annika: A New Cross-Linking Search Engine
+Georg J. Pirklbauer, Christian E. Stieger, Manuel Matzinger, Stephan Winkler, Karl Mechtler, and Viktoria Dorfer
+Journal of Proteome Research 2021 20 (5), 2560-2569
+DOI: 10.1021/acs.jproteome.0c01000
+```
+
+## Contact
+
+[micha.birklbauer@fh-hagenberg.at](mailto:micha.birklbauer@fh-hagenberg.at)

@@ -133,9 +133,11 @@ python pyXlinkViewerExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "
 ## Using exporters in Proteome Discoverer
 
 To use the xiNET and xiVIEW exporters in Proteome Discoverer, add a "Scripting Node" from the "Post-Processing" tab in the "Workflow Nodes" window to your consensus workflow. You need to specify the following parameters in the Scripting Node:
+
 - Path to Executable: Path of the python installation e.g. `C:\Users\Username\AppData\Local\Programs\Python\Python37\python.exe`
 - Command Line Arguments: Path of the exporter script from `scripting_nodes` and `%NODEARGS%` e.g. `C:\Users\Username\Documents\PDScriptingNodes\xiViewExporter_msannikaPD.py %NODEARGS%`
 - Requested Tables and Columns: Copy and paste the contents of `pd_tables.txt`
+
 Re-running the consensus worklflow should create the xiNET/xiVIEW files in the study directory.
 
 ## Known Issues

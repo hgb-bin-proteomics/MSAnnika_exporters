@@ -4,9 +4,12 @@ Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink re
 
 ## Requirements
 
-Python 3.7+ installation with pandas and biopython.
+Python 3.7+ installation with pandas, openpyxl and biopython to run the scripts or to use the Proteome Discoverer Scripting Nodes.
 - Install [pandas](https://pandas.pydata.org/): `pip install pandas`
+- Install [openpyxl](https://openpyxl.readthedocs.io/en/stable/): `pip install openpyxl`
 - Install [biopython](https://biopython.org/): `pip install biopython`
+
+Alternatively there are Windows binaries available in the [Releases](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/releases) tab that don't require a python installation.
 
 ## Export to [xiNET](https://crosslinkviewer.org/)
 
@@ -44,6 +47,12 @@ Example usage:
 python xiNetExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --fasta SARS-COV-2.fasta -o test --ignore P0DTC1 P0DTD1 P0DTC2
 ```
 
+Or using the Windows binary:
+
+```
+xiNetExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --fasta SARS-COV-2.fasta -o test --ignore P0DTC1 P0DTD1 P0DTC2
+```
+
 ## Export to [xiVIEW](https://xiview.org/xiNET_website/index.php)
 
 ```
@@ -78,6 +87,12 @@ Example usage:
 
 ```
 python xiViewExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --fasta SARS-COV-2.fasta -o test --ignore P0DTC1 P0DTD1 P0DTC2
+```
+
+Or using the Windows binary:
+
+```
+xiViewExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --fasta SARS-COV-2.fasta -o test --ignore P0DTC1 P0DTD1 P0DTC2
 ```
 
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)
@@ -128,6 +143,12 @@ Example usage:
 
 ```
 python pyXlinkViewerExporter_msannika.py "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --pdb 6yhu.pdb -o test
+```
+
+Or using the Windows binary:
+
+```
+pyXlinkViewerExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --pdb 6yhu.pdb -o test
 ```
 
 ## Using exporters in Proteome Discoverer

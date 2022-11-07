@@ -245,7 +245,7 @@ class MSAnnika_Exporter:
                     new_xl_pos += 1
             return new_xl_pos
 
-    def __generate_output_string(self) -> str:
+    def __generate_output_string(self) -> List[str]:
 
         if len(self.sequence) == len(self.chains) == len(self.residue_numbers):
             pass
@@ -261,6 +261,7 @@ class MSAnnika_Exporter:
             raise Exception("ERROR: Sequence, Chain and Residue Numbers are not matching! Exiting!")
 
         output_string = ""
+        mapping_string = ""
 
         for input_file in self.input_files:
             df = pd.read_excel(input_file)
@@ -272,19 +273,24 @@ class MSAnnika_Exporter:
                     for link_a in links_a:
                         for link_b in links_b:
                             output_string = output_string + link_a + link_b + "\n"
+                            mapping_string = mapping_string + link_a + link_b + "\n" + row["Sequence A"] + " - " + row["Sequence B"] + "\n"
 
-        return output_string
+        return [output_string, mapping_string]
 
     # export function, takes one argument "output_file" which sets the prefix
     # of generated output files
     def export(self, output_file = None, format = "PyXlinkViewer") -> None:
-        output_string = self.__generate_output_string()
+        output_string, mapping_string = self.__generate_output_string()
 
         if output_file == None:
             output_file = self.input_files[0].split(".")[0]
 
         with open(output_file + "_crosslinks.txt", "w", encoding = "utf-8") as f:
             f.write(output_string)
+            f.close()
+
+        with open(output_file + "_mapping.txt", "w", encoding = "utf-8") as f:
+            f.write(mapping_string)
             f.close()
 
         parsed_pdb = ""

@@ -17,8 +17,8 @@ from Bio.Seq import Seq
 from Bio import pairwise2
 from Bio.Align import substitution_matrices
 
-__version = "1.0.1"
-__date = "20221107"
+__version = "1.0.2"
+__date = "20221108"
 
 """
 DESCRIPTION:

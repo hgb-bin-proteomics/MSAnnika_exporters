@@ -107,7 +107,7 @@ pyXlinkViewerExporter_msannika.py f [f ...]
                                     [-go GAP_OPEN_PENALTY]
                                     [-ge GAP_EXTENSION_PENALTY]
                                     [-si SEQUENCE_IDENTITY]
-                                    [-tp TRUST_PDB]
+                                    [-allowxlmismatch]
                                     [-o OUTPUT]
                                     [-h]
                                     [--version]
@@ -129,10 +129,10 @@ optional arguments:
                         Sequence identity threshold in percent to consider two
                         aligned sequences as matching.
                         Default: 80
-  -tp TRUST_PDB, --trust_pdb TRUST_PDB
-                        Skip crosslinks that don't have crosslinks site in the
-                        PDB sequence.
-                        Default: True
+  -allowxlmismatch, --allowxlmismatch
+                        Flag to report crosslinks that don't link to a crosslink
+                        site in the PDB sequence.
+                        Default: Do not report such crosslinks.
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Prefix of the output files.

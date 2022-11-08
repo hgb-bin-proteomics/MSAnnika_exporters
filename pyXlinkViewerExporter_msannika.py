@@ -30,7 +30,7 @@ pyXlinkViewerExporter_msannika.py f [f ...]
                                     [-go GAP_OPEN_PENALTY]
                                     [-ge GAP_EXTENSION_PENALTY]
                                     [-si SEQUENCE_IDENTITY]
-                                    [-tp TRUST_PDB]
+                                    [-allowxlmismatch]
                                     [-o OUTPUT]
                                     [-h]
                                     [--version]
@@ -52,10 +52,10 @@ optional arguments:
                         Sequence identity threshold in percent to consider two
                         aligned sequences as matching.
                         Default: 80
-  -tp TRUST_PDB, --trust_pdb TRUST_PDB
-                        Skip crosslinks that don't have crosslinks site in the
-                        PDB sequence.
-                        Default: True
+  -allowxlmismatch, --allowxlmismatch
+                        Flag to report crosslinks that don't link to a crosslink
+                        site in the PDB sequence.
+                        Default: Do not report such crosslinks.
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Prefix of the output files.
@@ -198,8 +198,10 @@ class MSAnnika_Exporter:
                     if len(pep_seq) != len(seqB):
                         xl_pos_in_alignment = self.__calculate_shifted_xl_pos(seqB, xl_pos_in_pep)
                     if self.trust_pdb:
+                        if xl_pos_in_alignment < xl_pos_in_pep:
+                            return []
                         if seqA[xl_pos_in_alignment] == seqB[xl_pos_in_alignment]:
-                            pep_pos_in_protein = self.sequence.find(seqA)
+                            pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA, self.sequence)], top_alignment.start)
                             xl_position = pep_pos_in_protein + xl_pos_in_alignment
                             xl_chain = self.chains[xl_position]
                             xl_residue = self.residue_numbers[xl_position]
@@ -207,7 +209,7 @@ class MSAnnika_Exporter:
                         else:
                             return []
                     else:
-                        pep_pos_in_protein = self.sequence.find(seqA)
+                        pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA, self.sequence)], top_alignment.start)
                         xl_position = pep_pos_in_protein + xl_pos_in_alignment
                         xl_chain = self.chains[xl_position]
                         xl_residue = self.residue_numbers[xl_position]
@@ -244,6 +246,12 @@ class MSAnnika_Exporter:
                     curr_limit += 1
                     new_xl_pos += 1
             return new_xl_pos
+
+    def __get_pep_pos(self, candidates: List[int], alignment_position: int) -> int:
+        distances = dict()
+        for candidate in candidates:
+            distances[abs(candidate - alignment_position)] = candidate
+        return distances[sorted(distances.keys())[0]]
 
     def __generate_output_string(self) -> List[str]:
 
@@ -334,11 +342,11 @@ def main() -> None:
                         default = 80.0,
                         help = "Sequence identity threshold needed to match two sequences.",
                         type = float)
-    parser.add_argument("-tp", "--trust_pdb",
+    parser.add_argument("-allowxlmismatch", "--allowxlmismatch",
+                        action = "store_false",
                         dest = "trust_pdb",
                         default = True,
-                        help = "Reject crosslinks that do not map to a reactive site on the PDB structure.",
-                        type = bool)
+                        help = "Allow crosslinks that do not map to a reactive site on the PDB structure.")
     parser.add_argument("-o", "--output",
                         dest = "output",
                         default = None,

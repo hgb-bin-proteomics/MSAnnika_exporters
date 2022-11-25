@@ -133,6 +133,9 @@ optional arguments:
                         Flag to report crosslinks that don't link to a crosslink
                         site in the PDB sequence.
                         Default: Do not report such crosslinks.
+  -ic, --ignore_chains
+                        Ignore specific chains in the PDB file.
+                        Default: No chains are ignored.
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Prefix of the output files.

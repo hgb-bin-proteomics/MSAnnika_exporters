@@ -17,8 +17,8 @@ from Bio.Seq import Seq
 from Bio import pairwise2
 from Bio.Align import substitution_matrices
 
-__version = "1.0.2"
-__date = "20221108"
+__version = "1.0.3"
+__date = "20221124"
 
 """
 DESCRIPTION:
@@ -56,6 +56,9 @@ optional arguments:
                         Flag to report crosslinks that don't link to a crosslink
                         site in the PDB sequence.
                         Default: Do not report such crosslinks.
+  -ic, --ignore_chains
+                        Ignore specific chains in the PDB file.
+                        Default: No chains are ignored.
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Prefix of the output files.
@@ -116,9 +119,10 @@ class MSAnnika_Exporter:
 
     def __init__(self, input_files: List[str], pdb_file: str,
                  gap_open: Union[int, float], gap_extension: Union[int, float],
-                 sequence_identity: Union[int, float], trust_pdb: bool):
+                 sequence_identity: Union[int, float], trust_pdb: bool,
+                 ignore_chains: List[str] = []):
 
-        pdb_data = self.__get_pdb_data(pdb_file)
+        pdb_data = self.__get_pdb_data(pdb_file, ignore_chains)
 
         self.input_files = input_files
         self.sequence = pdb_data["sequence"]
@@ -132,7 +136,7 @@ class MSAnnika_Exporter:
         self.trust_pdb = bool(trust_pdb)
 
     # pdb file parser
-    def __get_pdb_data(self, pdb_file: str) -> dict:
+    def __get_pdb_data(self, pdb_file: str, ignore_chains: List[str]) -> dict:
 
         sequence = []
         chains = []
@@ -148,22 +152,27 @@ class MSAnnika_Exporter:
                 parts = line.split()
                 if parts[3].strip() in AA_translate:
                     residue = AA_translate[parts[3].strip()]
-                    chain = parts[4].strip()
-                    residue_number = parts[5].strip()
-                    if chain in residue_numbers:
-                        if residue_number not in residue_numbers[chain]:
-                            residue_numbers[chain].append(residue_number)
+                    if len(parts[4]) > 1:
+                        chain = parts[4].strip()[0]
+                        residue_number = parts[4].strip()[1:]
+                    else:
+                        chain = parts[4].strip()
+                        residue_number = parts[5].strip()
+                    if chain not in ignore_chains:
+                        if chain in residue_numbers:
+                            if residue_number not in residue_numbers[chain]:
+                                residue_numbers[chain].append(residue_number)
+                                sequence.append(residue)
+                                chains.append(chain)
+                        else:
+                            residue_numbers[chain] = [residue_number]
                             sequence.append(residue)
                             chains.append(chain)
-                    else:
-                        residue_numbers[chain] = [residue_number]
-                        sequence.append(residue)
-                        chains.append(chain)
                 else:
                     print("WARNING: ", parts[3].strip(), " is not a supported amino acid.")
 
-        for chain in sorted(residue_numbers.keys()):
-            residue_numbers_lst = residue_numbers_lst + residue_numbers[chain]
+        for chain_id in sorted(residue_numbers.keys()):
+            residue_numbers_lst = residue_numbers_lst + residue_numbers[chain_id]
 
         return {"sequence": "".join(sequence), "chains": "".join(chains), "residue_numbers": residue_numbers_lst}
 
@@ -197,11 +206,13 @@ class MSAnnika_Exporter:
                     xl_pos_in_alignment = xl_pos_in_pep
                     if len(pep_seq) != len(seqB):
                         xl_pos_in_alignment = self.__calculate_shifted_xl_pos(seqB, xl_pos_in_pep)
+                        if "-" in seqA[:xl_pos_in_alignment]:
+                            xl_pos_in_alignment - len([m for m in re.finditer("-", seqA[:xl_pos_in_alignment])])
                     if self.trust_pdb:
                         if xl_pos_in_alignment < xl_pos_in_pep:
                             return []
                         if seqA[xl_pos_in_alignment] == seqB[xl_pos_in_alignment]:
-                            pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA, self.sequence)], top_alignment.start)
+                            pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA.replace("-", ""), self.sequence)], top_alignment.start)
                             xl_position = pep_pos_in_protein + xl_pos_in_alignment
                             xl_chain = self.chains[xl_position]
                             xl_residue = self.residue_numbers[xl_position]
@@ -209,7 +220,7 @@ class MSAnnika_Exporter:
                         else:
                             return []
                     else:
-                        pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA, self.sequence)], top_alignment.start)
+                        pep_pos_in_protein = self.__get_pep_pos([m.start() for m in re.finditer(seqA.replace("-", ""), self.sequence)], top_alignment.start)
                         xl_position = pep_pos_in_protein + xl_pos_in_alignment
                         xl_chain = self.chains[xl_position]
                         xl_residue = self.residue_numbers[xl_position]
@@ -347,6 +358,12 @@ def main() -> None:
                         dest = "trust_pdb",
                         default = True,
                         help = "Allow crosslinks that do not map to a reactive site on the PDB structure.")
+    parser.add_argument("-ic", "--ignore_chains",
+                        dest = "ignore_chains",
+                        default = [],
+                        help = "Chains to ignore in the PDB file.",
+                        type = str,
+                        nargs = "*")
     parser.add_argument("-o", "--output",
                         dest = "output",
                         default = None,
@@ -359,7 +376,8 @@ def main() -> None:
 
     exporter = MSAnnika_Exporter(args.files, args.pdb,
                                  args.gap_open, args.gap_extension,
-                                 args.sequence_identity, args.trust_pdb)
+                                 args.sequence_identity, args.trust_pdb,
+                                 args.ignore_chains)
 
     exporter.export(args.output)
 

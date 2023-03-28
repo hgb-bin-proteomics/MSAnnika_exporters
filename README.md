@@ -178,6 +178,10 @@ Journal of Proteome Research 2021 20 (5), 2560-2569
 DOI: 10.1021/acs.jproteome.0c01000
 ```
 
+## License
+
+- [MIT](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/blob/master/LICENSE)
+
 ## Contact
 
 [micha.birklbauer@fh-hagenberg.at](mailto:micha.birklbauer@fh-hagenberg.at)

@@ -13,7 +13,11 @@ Alternatively there are Windows binaries available in the [Releases](https://git
 
 ## Exporting MS Annika results to Microsoft Excel
 
-All of the scripts use Micrsoft Excel files as input, for that MS Annika results need to be exported from Proteome Discoverer. It is recommended to first filter results according to your needs, e.g. filter for high-confidence crosslinks and filter out decoy crosslinks. Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: Crosslinks > Export` in Proteome Discoverer.
+All of the scripts use Micrsoft Excel files as input, for that MS Annika results need to be exported from Proteome Discoverer. It is recommended to first filter results according to your needs, e.g. filter for high-confidence crosslinks and filter out decoy crosslinks as depicted below.
+
+![PDFilter](filter.png)
+
+Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: Crosslinks > Export` in Proteome Discoverer.
 
 ## Quick start
 

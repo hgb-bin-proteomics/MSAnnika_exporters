@@ -11,6 +11,10 @@ Python 3.7+ installation with pandas, openpyxl and biopython to run the scripts 
 
 Alternatively there are Windows binaries available in the [Releases](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/releases) tab that don't require a python installation.
 
+## FASTA requirements
+
+FASTA headers need to follow the UniProtKB standard formatting (as described [*here*](https://www.uniprot.org/help/fasta-headers)) otherwise scripts may not work properly. The minimal requirement for FASTA headers is `db|identifier|entry`.
+
 ## Exporting MS Annika results to Microsoft Excel
 
 All of the scripts use Micrsoft Excel files as input, for that MS Annika results need to be exported from Proteome Discoverer. It is recommended to first filter results according to your needs, e.g. filter for high-confidence crosslinks and filter out decoy crosslinks as depicted below.
@@ -129,7 +133,7 @@ xiViewExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp
 
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)
 
-A schematic workflow of the implementation can be seen in [_this figure_](workflow_pyMOLexporter.png).
+A schematic workflow of the implementation can be seen in [*this figure*](workflow_pyMOLexporter.png).
 
 ```
 EXPORTER DESCRIPTION:

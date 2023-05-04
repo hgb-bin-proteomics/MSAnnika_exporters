@@ -17,21 +17,21 @@ All of the scripts use Micrsoft Excel files as input, for that MS Annika results
 
 ## Quick start
 
-- **Exporting to xiNET**
+- **Exporting to xiNET**  
   Files needed:
   - result.xlsx - MS Annika result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiNetExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to xiVIEW**
+- **Exporting to xiVIEW**  
   Files needed:
   - result.xlsx - MS Annika result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiViewExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to pyXlinkViewer (pyMOL)**
+- **Exporting to pyXlinkViewer (pyMOL)**  
   Files needed:
   - result.xlsx - MS Annika result file(s) exported to .xlsx
   - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to

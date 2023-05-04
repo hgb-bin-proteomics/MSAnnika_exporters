@@ -11,6 +11,38 @@ Python 3.7+ installation with pandas, openpyxl and biopython to run the scripts 
 
 Alternatively there are Windows binaries available in the [Releases](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/releases) tab that don't require a python installation.
 
+## Exporting MS Annika results to Microsoft Excel
+
+All of the scripts use Micrsoft Excel files as input, for that MS Annika results need to be exported from Proteome Discoverer. It is recommended to first filter results according to your needs, e.g. filter for high-confidence crosslinks and filter out decoy crosslinks as depicted below.
+
+![PDFilter](filter.png)
+
+Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: Crosslinks > Export` in Proteome Discoverer.
+
+## Quick start
+
+- **Exporting to xiNET**  
+  Files needed:
+  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - seq.fasta - FASTA file containing sequences of the crosslinked proteins
+  ```
+  python xiNetExporter_msannika.py result.xlsx -fasta seq.fasta
+  ```
+- **Exporting to xiVIEW**  
+  Files needed:
+  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - seq.fasta - FASTA file containing sequences of the crosslinked proteins
+  ```
+  python xiViewExporter_msannika.py result.xlsx -fasta seq.fasta
+  ```
+- **Exporting to pyXlinkViewer (pyMOL)**  
+  Files needed:
+  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to
+  ```
+  python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
+  ```
+
 ## Export to [xiNET](https://crosslinkviewer.org/)
 
 ```
@@ -97,6 +129,8 @@ xiViewExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp
 
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)
 
+A schematic workflow of the implementation can be seen in [_this figure_](workflow_pyMOLexporter.png).
+
 ```
 EXPORTER DESCRIPTION:
 A script to export MS Annika results to PyXlinkViewer format for visualizing
@@ -164,6 +198,8 @@ To use the xiNET and xiVIEW exporters in Proteome Discoverer, add a "Scripting N
 
 Re-running the consensus worklflow should create the xiNET/xiVIEW files in the study directory.
 
+Tested with Proteome Discoverer 2.5 (version 2.5.0.400).
+
 ## Known Issues
 
 [List of known issues](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/issues)
@@ -177,6 +213,10 @@ Georg J. Pirklbauer, Christian E. Stieger, Manuel Matzinger, Stephan Winkler, Ka
 Journal of Proteome Research 2021 20 (5), 2560-2569
 DOI: 10.1021/acs.jproteome.0c01000
 ```
+
+## License
+
+- [MIT](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/blob/master/LICENSE)
 
 ## Contact
 

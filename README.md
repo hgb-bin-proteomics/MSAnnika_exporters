@@ -4,10 +4,11 @@ Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink re
 
 ## Requirements
 
-Python 3.7+ installation with pandas, openpyxl and biopython to run the scripts or to use the Proteome Discoverer Scripting Nodes.
+Python 3.7+ installation with pandas, openpyxl, biopython and biopandas to run the scripts or to use the Proteome Discoverer Scripting Nodes.
 - Install [pandas](https://pandas.pydata.org/): `pip install pandas`
 - Install [openpyxl](https://openpyxl.readthedocs.io/en/stable/): `pip install openpyxl`
 - Install [biopython](https://biopython.org/): `pip install biopython`
+- Install [biopandas](https://biopandas.github.io/biopandas/): `pip install biopandas`
 
 Alternatively there are Windows binaries available in the [Releases](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/releases) tab that don't require a python installation.
 

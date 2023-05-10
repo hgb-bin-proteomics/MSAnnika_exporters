@@ -43,7 +43,7 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
 - **Exporting to pyXlinkViewer (pyMOL)**  
   Files needed:
   - result.xlsx - MS Annika result file(s) exported to .xlsx
-  - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to
+  - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to, alternatively you can also just provide the 4-letter code from the pdb an the script will fetch the structure from internet
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
@@ -156,7 +156,8 @@ positional arguments:
 required arguments:
   -pdb PDB_FILE, --pdb PDB_FILE
                         PDB file of the structure that crosslinks should be
-                        exported to.
+                        exported to/or 4-letter identifier from the PDB
+                        (structure will be retrieved from the internet).
 optional arguments:
   -go GAP_OPEN_PENALTY, --gap_open GAP_OPEN_PENALTY
                         Gap open penalty for sequence alignment.

@@ -6,9 +6,11 @@
 # micha.birklbauer@gmail.com
 
 import re
+import os
 import argparse
 import numpy as np
 import pandas as pd
+
 from typing import List
 from typing import Union
 
@@ -17,8 +19,11 @@ from Bio.Seq import Seq
 from Bio import pairwise2
 from Bio.Align import substitution_matrices
 
-__version = "1.0.3"
-__date = "20221124"
+# needs biopandas: pip install biopandas
+from biopandas.pdb import PandasPdb
+
+__version = "1.1.0"
+__date = "20230510"
 
 """
 DESCRIPTION:
@@ -138,38 +143,35 @@ class MSAnnika_Exporter:
     # pdb file parser
     def __get_pdb_data(self, pdb_file: str, ignore_chains: List[str]) -> dict:
 
+        if os.path.isfile(pdb_file):
+            pdb_df = PandasPdb().read_pdb(pdb_file)
+        else:
+            pdb_df = PandasPdb().fetch_pdb(pdb_file.split(".pdb")[0])
+
         sequence = []
         chains = []
         residue_numbers = dict()
         residue_numbers_lst = []
 
-        with open(pdb_file, "r", encoding = "utf-8") as f:
-            pdb_data = f.readlines()
-            f.close()
+        for i, row in pdb_df.df["ATOM"].iterrows():
+            three_letter_aa = row["residue_name"]
+            residue_number = row["residue_number"]
+            chain = row["chain_id"]
 
-        for line in pdb_data:
-            if line.split()[0].strip().upper() == "ATOM":
-                parts = line.split()
-                if parts[3].strip() in AA_translate:
-                    residue = AA_translate[parts[3].strip()]
-                    if len(parts[4]) > 1:
-                        chain = parts[4].strip()[0]
-                        residue_number = parts[4].strip()[1:]
-                    else:
-                        chain = parts[4].strip()
-                        residue_number = parts[5].strip()
-                    if chain not in ignore_chains:
-                        if chain in residue_numbers:
-                            if residue_number not in residue_numbers[chain]:
-                                residue_numbers[chain].append(residue_number)
-                                sequence.append(residue)
-                                chains.append(chain)
-                        else:
-                            residue_numbers[chain] = [residue_number]
+            if three_letter_aa.strip() in AA_translate:
+                residue = AA_translate[three_letter_aa.strip()]
+                if chain not in ignore_chains:
+                    if chain in residue_numbers:
+                        if residue_number not in residue_numbers[chain]:
+                            residue_numbers[chain].append(residue_number)
                             sequence.append(residue)
                             chains.append(chain)
-                else:
-                    print("WARNING: ", parts[3].strip(), " is not a supported amino acid.")
+                    else:
+                        residue_numbers[chain] = [residue_number]
+                        sequence.append(residue)
+                        chains.append(chain)
+            else:
+                print("WARNING: ", three_letter_aa.strip(), " is not a supported amino acid.")
 
         for chain_id in sorted(residue_numbers.keys()):
             residue_numbers_lst = residue_numbers_lst + residue_numbers[chain_id]
@@ -284,6 +286,7 @@ class MSAnnika_Exporter:
 
         for input_file in self.input_files:
             df = pd.read_excel(input_file)
+            nr_of_xl = 0
 
             for i, row in df.iterrows():
                 links_a = self.__get_xl_position_and_chain_in_protein(row["Sequence A"])
@@ -293,6 +296,9 @@ class MSAnnika_Exporter:
                         for link_b in links_b:
                             output_string = output_string + link_a + link_b + "\n"
                             mapping_string = mapping_string + link_a + link_b + "\n" + row["Sequence A"] + " - " + row["Sequence B"] + "\n"
+                            nr_of_xl += 1
+
+            print("Mapped " + str(nr_of_xl) + " crosslinks to structure from file: " + input_file)
 
         return [output_string, mapping_string]
 
@@ -314,7 +320,7 @@ class MSAnnika_Exporter:
 
         parsed_pdb = ""
         for i, r in enumerate(self.residue_numbers):
-            parsed_pdb = parsed_pdb + self.sequence[i] + " " + self.chains[i] + " " + r + "\n"
+            parsed_pdb = parsed_pdb + self.sequence[i] + " " + self.chains[i] + " " + str(r) + "\n"
 
         with open(output_file + "_parsedPDB.txt", "w", encoding = "utf-8") as f:
             f.write(parsed_pdb)

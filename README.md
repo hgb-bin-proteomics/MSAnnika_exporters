@@ -4,10 +4,11 @@ Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink re
 
 ## Requirements
 
-Python 3.7+ installation with pandas, openpyxl and biopython to run the scripts or to use the Proteome Discoverer Scripting Nodes.
+Python 3.7+ installation with pandas, openpyxl, biopython and biopandas to run the scripts or to use the Proteome Discoverer Scripting Nodes.
 - Install [pandas](https://pandas.pydata.org/): `pip install pandas`
 - Install [openpyxl](https://openpyxl.readthedocs.io/en/stable/): `pip install openpyxl`
 - Install [biopython](https://biopython.org/): `pip install biopython`
+- Install [biopandas](https://biopandas.github.io/biopandas/): `pip install biopandas`
 
 Alternatively there are Windows binaries available in the [Releases](https://github.com/hgb-bin-proteomics/MSAnnika_exporters/releases) tab that don't require a python installation.
 
@@ -42,7 +43,7 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
 - **Exporting to pyXlinkViewer (pyMOL)**  
   Files needed:
   - result.xlsx - MS Annika result file(s) exported to .xlsx
-  - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to
+  - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to, alternatively you can also just provide the 4-letter code from the [PDB](https://www.rcsb.org/) and the script will fetch the structure from internet
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
@@ -155,7 +156,8 @@ positional arguments:
 required arguments:
   -pdb PDB_FILE, --pdb PDB_FILE
                         PDB file of the structure that crosslinks should be
-                        exported to.
+                        exported to/or 4-letter identifier from the PDB
+                        (structure will be retrieved from the internet).
 optional arguments:
   -go GAP_OPEN_PENALTY, --gap_open GAP_OPEN_PENALTY
                         Gap open penalty for sequence alignment.

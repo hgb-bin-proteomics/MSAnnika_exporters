@@ -1,6 +1,6 @@
 # MS Annika Exporters
 
-Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink results to different file formats.
+Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink results to different file formats for different down-stream analysis tools.
 
 ## Requirements
 
@@ -193,6 +193,55 @@ Or using the Windows binary:
 ```
 pyXlinkViewerExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --pdb 6yhu.pdb -o test
 ```
+
+## Export to [XMAS for ChimeraX](https://github.com/ScheltemaLab/ChimeraX_bundle)
+
+Visualization of crosslinks with [XMAS](https://github.com/ScheltemaLab/ChimeraX_bundle) in ChimeraX works without the need of an additional exporter, the Microsoft Excel files exported from Proteome Discoverer can be used directly as evidence files within XMAS.
+
+## Export to [PAE Viewer](http://www.subtiwiki.uni-goettingen.de/v4/paeViewerDemo)
+
+Evaluating predicted structures (e.g. structures created with AlphaFold2) using cross-linking data can easily be done using [PAE Viewer](http://www.subtiwiki.uni-goettingen.de/v4/paeViewerDemo). Exporting MS Annika results to the input format of PAE Viewer requires first exporting to pyXlinkViewer (pyMOL) and then exporting crosslinks from pyXlinkViewer to CSV, as shown in the pyMOL screenshot below:
+
+![pyMOLExportScreenshot](pyXlinkViewer_XL_export.png)
+
+The exporter takes the following arguments:
+```
+EXPORTER DESCRIPTION:
+A script to export MS Annika results from pyXlinkViewer to PAE Viewer input
+files (CSV).
+USAGE:
+PAEViewerExporter_msannika.py f [f]
+                                [-t DISTANCE]
+                                [-o OUTPUT]
+                                [-h]
+                                [--version]
+positional arguments:
+  f                     Crosslinks exported from pyXlinkViewer in csv format.
+optional arguments:
+  -t DISTANCE, --threshold DISTANCE
+                        threshold (float) that specifies if a crosslink
+                        satisfies the crosslinker-specific distance constraint.
+  -o OUTPUT, --output OUTPUT
+                        Prefix of the output file.
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+```
+
+Example usage:
+
+```
+python PAEViewerExporter_msannika.py pyXlinkViewer_export.csv
+```
+
+Or using the Windows binary:
+
+```
+PAEViewerExporter_msannika.exe pyXlinkViewer_export.csv
+```
+
+## Finding the shortest cross-linked residue pair for every crosslink
+
+Mapping crosslinks to 3D structures is often ambiguous as the same peptide may appear in more than one chain, creating several possible cross-linked residue pairs. If you only want to find the shortest residue pair/crosslink (e.g. for validating a 3D structure) please check out `find_shortest.py` in the [Crosslink_Utils repo](https://github.com/hgb-bin-proteomics/Crosslink_Utils).
 
 ## Using exporters in Proteome Discoverer
 

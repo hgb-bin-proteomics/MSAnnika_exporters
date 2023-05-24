@@ -47,6 +47,14 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
+- **Exporting to XMAS (ChimeraX)**
+  Visualization of MS Annika results works out of the box with .xlsx files exported from Proteome Discoverer.
+- **Exporting to PAE Viewer**
+  Files needed:
+  - pyXlinkViewer_export.csv - Crosslinks exported from pyXlinkViewer as .csv
+  ```
+  python PAEViewerExporter_msannika.py pyXlinkViewer_export.csv
+  ```
 
 ## Export to [xiNET](https://crosslinkviewer.org/)
 

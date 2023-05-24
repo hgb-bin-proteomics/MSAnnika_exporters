@@ -34,14 +34,14 @@ optional arguments:
 """
 
 # Exporter class with constructor that takes one pyXlinkViewer CSV as input, and
-# optional the threshold to be considered for constraint violation 
+# optional the threshold to be considered for constraint violation
 class MSAnnika_Exporter:
 
-    def __init__(self, input_file: str, threshold: float | None = None):
+    def __init__(self, input_file: str, threshold: float = None):
         self.input_file = input_file
         self.threshold = threshold
 
-    def __get_constraint(self, row: pd.Series, threshold: float | None = None) -> bool:
+    def __get_constraint(self, row: pd.Series, threshold: float = None) -> bool:
 
         if threshold is not None:
             return float(row["CA distance"]) <= float(threshold)
@@ -62,7 +62,7 @@ class MSAnnika_Exporter:
 
     # export function, takes one argument "output_file" which sets the prefix
     # of generated output file
-    def export(self, output_file: str | None = None) -> pd.DataFrame:
+    def export(self, output_file: str = None) -> pd.DataFrame:
         csv = self.__generate_csv_df()
 
         if output_file == None:

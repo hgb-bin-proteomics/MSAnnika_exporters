@@ -47,6 +47,8 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
+- **Exporting to XLMS-Tools**  
+  XLMS-Tools uses the same file format as pyXlinkViewer, therefore the same exporter can be used!
 - **Exporting to XMAS (ChimeraX)**  
   Visualization of MS Annika results works out of the box with .xlsx files exported from Proteome Discoverer.
 - **Exporting to PAE Viewer**  
@@ -201,6 +203,11 @@ Or using the Windows binary:
 ```
 pyXlinkViewerExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --pdb 6yhu.pdb -o test
 ```
+
+## Export to [XLMS-Tools](https://gitlab.com/topf-lab/xlms-tools)
+
+[XLMS-Tools](https://gitlab.com/topf-lab/xlms-tools) uses the same input format as [pyXlinkViewer](https://github.com/BobSchiffrin/PyXlinkViewer).
+Please use the [pyXlinkViewer exporter](#export-to-pyxlinkviewer-for-pymol) to export your results to XLMS-Tools format.
 
 ## Export to [XMAS for ChimeraX](https://github.com/ScheltemaLab/ChimeraX_bundle)
 

@@ -63,8 +63,8 @@ class MSAnnika_Exporter:
                   errors = "raise")
         df["is decoy 1"] = df["Alpha T/D"].apply(lambda x: "false" if "t" in str(x).lower() else "true")
         df["is decoy 2"] = df["Beta T/D"].apply(lambda x: "false" if "t" in str(x).lower() else "true")
-        df["peptide position 1"] = df["peptide position 1"].apply(lambda x: ";".join([str(int(y) + 1) for y in x.split(";")]))
-        df["peptide position 2"] = df["peptide position 2"].apply(lambda x: ";".join([str(int(y) + 1) for y in x.split(";")]))
+        df["peptide position 1"] = df["peptide position 1"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
+        df["peptide position 2"] = df["peptide position 2"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
 
         return df
 

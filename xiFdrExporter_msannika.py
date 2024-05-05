@@ -8,14 +8,16 @@
 import argparse
 import pandas as pd
 
-__version = "1.0.0"
-__date = "20240313"
+__version = "1.0.1"
+__date = "20240505"
 
 """
 DESCRIPTION:
 A script to export MS Annika CSM results (.xlsx) to a xiFDR input file (.csv).
 CSMs should be unfiltered, therefore include decoys and not be validated for any
 FDR.
+Warning: This exporter currently only reports one/the first protein for
+         ambiguous peptides that are found in more than one protein!
 USAGE:
 xiFdrExporter_msannika.py f [f]
                             [-o OUTPUT]
@@ -44,6 +46,8 @@ class MSAnnika_Exporter:
     @staticmethod
     def generate_df(input_file: str) -> pd.DataFrame:
 
+        print("Warning: This exporter currently only reports one/the first protein for ambiguous peptides that are found in more than one protein!")
+
         df = pd.read_excel(input_file)
         df.rename(columns = {"Spectrum File": "run",
                              "First Scan": "scan",
@@ -61,10 +65,17 @@ class MSAnnika_Exporter:
                              "B in protein": "peptide position 2"},
                   inplace = True,
                   errors = "raise")
+        # remove the following two lines if I find out how to denote ambiguous peptides in xiFDR (e.g. peptides that link to more than one protein)
+        df["accession1"] = df["accession1"].apply(lambda x: x.split(";")[0])
+        df["accession2"] = df["accession2"].apply(lambda x: x.split(";")[0])
         df["is decoy 1"] = df["Alpha T/D"].apply(lambda x: "false" if "t" in str(x).lower() else "true")
         df["is decoy 2"] = df["Beta T/D"].apply(lambda x: "false" if "t" in str(x).lower() else "true")
-        df["peptide position 1"] = df["peptide position 1"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
-        df["peptide position 2"] = df["peptide position 2"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
+        # same issue again - this would be used if xiFDR allows more than protein per peptide
+        #df["peptide position 1"] = df["peptide position 1"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
+        #df["peptide position 2"] = df["peptide position 2"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
+        # remove the following two lines if I figure above out
+        df["peptide position 1"] = df["peptide position 1"].apply(lambda x: int(x.split(";")[0]) + 1)
+        df["peptide position 2"] = df["peptide position 2"].apply(lambda x: int(x.split(";")[0]) + 1)
 
         return df
 

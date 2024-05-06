@@ -42,38 +42,38 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
 
 ## Quick start
 
-- **Exporting to xiNET**  
+- **Exporting to [xiNET](https://crosslinkviewer.org/)**  
   Files needed:
   - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiNetExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to xiVIEW**  
+- **Exporting to [xiVIEW](https://xiview.org/xiNET_website/index.php)**  
   Files needed:
   - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiViewExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to xiFDR**
+- **Exporting to [xiFDR](https://github.com/Rappsilber-Laboratory/xiFDR)**  
   Files needed:
   - result.xlsx - MS Annika CSM result file (unvalidated) exported to .xlsx
   ```
   python xiFdrExporter_msannika.py result.xlsx
   ```
-- **Exporting to pyXlinkViewer (pyMOL)**  
+- **Exporting to [pyXlinkViewer (pyMOL)](https://github.com/BobSchiffrin/PyXlinkViewer)**  
   Files needed:
   - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to, alternatively you can also just provide the 4-letter code from the [PDB](https://www.rcsb.org/) and the script will fetch the structure from internet
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
-- **Exporting to XLMS-Tools**  
+- **Exporting to [XLMS-Tools](https://gitlab.com/topf-lab/xlms-tools)**  
   XLMS-Tools uses the same file format as pyXlinkViewer, therefore the same exporter can be used!
-- **Exporting to XMAS (ChimeraX)**  
+- **Exporting to [XMAS (ChimeraX)](https://github.com/ScheltemaLab/ChimeraX_bundle)**  
   Visualization of MS Annika results works out of the box with .xlsx files exported from Proteome Discoverer.
-- **Exporting to PAE Viewer**  
+- **Exporting to [PAE Viewer](http://www.subtiwiki.uni-goettingen.de/v4/paeViewerDemo)**  
   Files needed:
   - pyXlinkViewer_export.csv - Crosslinks exported from pyXlinkViewer as .csv
   ```

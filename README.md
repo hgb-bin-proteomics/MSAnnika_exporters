@@ -23,6 +23,7 @@ All of the scripts use Micrsoft Excel files as input, for that MS Annika results
 ### Exporting Crosslinks
 
 ![PDFilterCrosslinks](img/crosslinks_filtered.png)
+
 **Figure 1:** Crosslinks filtered for 1% estimated FDR and without decoys.
 
 Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: Crosslinks > Export` in Proteome Discoverer.
@@ -30,9 +31,11 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
 ### Exporting CSMs
 
 ![PDFilterCSMsUnvalidated](img/csms_unfiltered.png)
+
 **Figure 2:** All (unvalidated) CSMs.
 
 ![PDFilterCSMsValidated](img/csms_filtered.png)
+
 **Figure 3:** CSMs filtered for 1% estimated FDR and without decoys.
 
 Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: CSMs > Export` in Proteome Discoverer.

@@ -20,38 +20,60 @@ FASTA headers need to follow the UniProtKB standard formatting (as described [*h
 
 All of the scripts use Micrsoft Excel files as input, for that MS Annika results need to be exported from Proteome Discoverer. It is recommended to first filter results according to your needs, e.g. filter for high-confidence crosslinks and filter out decoy crosslinks as depicted below.
 
-![PDFilter](filter.png)
+### Exporting Crosslinks
+
+![PDFilterCrosslinks](img/crosslinks_filtered.png)
+
+**Figure 1:** Crosslinks filtered for 1% estimated FDR and without decoys.
 
 Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: Crosslinks > Export` in Proteome Discoverer.
 
+### Exporting CSMs
+
+![PDFilterCSMsUnvalidated](img/csms_unfiltered.png)
+
+**Figure 2:** All (unvalidated) CSMs.
+
+![PDFilterCSMsValidated](img/csms_filtered.png)
+
+**Figure 3:** CSMs filtered for 1% estimated FDR and without decoys.
+
+Results can then be exported by selecting `File > Export > To Microsoft Excel… > Level 1: CSMs > Export` in Proteome Discoverer.
+
 ## Quick start
 
-- **Exporting to xiNET**  
+- **Exporting to [xiNET](https://crosslinkviewer.org/)**  
   Files needed:
-  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiNetExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to xiVIEW**  
+- **Exporting to [xiVIEW](https://xiview.org/xiNET_website/index.php)**  
   Files needed:
-  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - seq.fasta - FASTA file containing sequences of the crosslinked proteins
   ```
   python xiViewExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
-- **Exporting to pyXlinkViewer (pyMOL)**  
+- **Exporting to [xiFDR](https://github.com/Rappsilber-Laboratory/xiFDR)**  
   Files needed:
-  - result.xlsx - MS Annika result file(s) exported to .xlsx
+  - result.xlsx - MS Annika CSM result file (unvalidated) exported to .xlsx
+  ```
+  python xiFdrExporter_msannika.py result.xlsx
+  ```
+- **Exporting to [pyXlinkViewer (pyMOL)](https://github.com/BobSchiffrin/PyXlinkViewer)**  
+  Files needed:
+  - result.xlsx - MS Annika crosslink result file(s) exported to .xlsx
   - structure.pdb - 3D structure of the protein (complex) that crosslinks should be mapped to, alternatively you can also just provide the 4-letter code from the [PDB](https://www.rcsb.org/) and the script will fetch the structure from internet
   ```
   python pyXlinkViewerExporter_msannika.py result.xlsx -pdb structure.pdb
   ```
-- **Exporting to XLMS-Tools**  
+- **Exporting to [XLMS-Tools](https://gitlab.com/topf-lab/xlms-tools)**  
   XLMS-Tools uses the same file format as pyXlinkViewer, therefore the same exporter can be used!
-- **Exporting to XMAS (ChimeraX)**  
+- **Exporting to [XMAS (ChimeraX)](https://github.com/ScheltemaLab/ChimeraX_bundle)**  
   Visualization of MS Annika results works out of the box with .xlsx files exported from Proteome Discoverer.
-- **Exporting to PAE Viewer**  
+- **Exporting to [PAE Viewer](http://www.subtiwiki.uni-goettingen.de/v4/paeViewerDemo)**  
   Files needed:
   - pyXlinkViewer_export.csv - Crosslinks exported from pyXlinkViewer as .csv
   ```
@@ -142,9 +164,45 @@ Or using the Windows binary:
 xiViewExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp8_trypsin_XL_REP2.xlsx" "202001216_nsp8_trypsin_XL_REP3.xlsx" --fasta SARS-COV-2.fasta -o test --ignore P0DTC1 P0DTD1 P0DTC2
 ```
 
+## Export to [xiFDR](https://github.com/Rappsilber-Laboratory/xiFDR)
+
+```
+EXPORTER DESCRIPTION:
+A script to export MS Annika CSM results (.xlsx) to a xiFDR input file (.csv).
+CSMs should be unfiltered, therefore include decoys and not be validated for any
+FDR.
+Warning: This exporter currently only reports one/the first protein for
+         ambiguous peptides that are found in more than one protein!
+USAGE:
+xiFdrExporter_msannika.py f [f]
+                            [-o OUTPUT]
+                            [-h]
+                            [--version]
+positional arguments:
+  f                     Crosslink-Spectrum-Matches (CSMs) exported from
+                        MS Annika in Microsoft Excel (.xlsx) format.
+optional arguments:
+  -o OUTPUT, --output OUTPUT
+                        Prefix of the output file.
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+```
+
+Example usage:
+
+```
+python xiFdrExporter_msannika.py XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
+```
+
+Or using the Windows binary:
+
+```
+xiFdrExporter_msannika.exe XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
+```
+
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)
 
-A schematic workflow of the implementation can be seen in [*this figure*](workflow_pyMOLexporter.png).
+A schematic workflow of the implementation can be seen in [*this figure*](img/workflow_pyMOLexporter.png).
 
 ```
 EXPORTER DESCRIPTION:
@@ -217,7 +275,7 @@ Visualization of crosslinks with [XMAS](https://github.com/ScheltemaLab/ChimeraX
 
 Evaluating predicted structures (e.g. structures created with AlphaFold2) using cross-linking data can easily be done using [PAE Viewer](http://www.subtiwiki.uni-goettingen.de/v4/paeViewerDemo). Exporting MS Annika results to the input format of PAE Viewer requires first exporting to pyXlinkViewer (pyMOL) and then exporting crosslinks from pyXlinkViewer to CSV, as shown in the pyMOL screenshot below:
 
-![pyMOLExportScreenshot](pyXlinkViewer_XL_export.png)
+![pyMOLExportScreenshot](img/pyXlinkViewer_XL_export.png)
 
 The exporter takes the following arguments:
 ```

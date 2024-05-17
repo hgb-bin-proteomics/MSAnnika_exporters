@@ -60,7 +60,10 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
   Files needed:
   - result.xlsx - MS Annika CSM result file (unvalidated) exported to .xlsx
   ```
+  # for xiFDR version < 2.2.1
   python xiFdrExporter_msannika.py result.xlsx
+  # for xiFDR version >= 2.2.1
+  python xiFdr2.2.1Exporter_msannika.py result.xlsx
   ```
 - **Exporting to [pyXlinkViewer (pyMOL)](https://github.com/BobSchiffrin/PyXlinkViewer)**  
   Files needed:
@@ -188,7 +191,7 @@ optional arguments:
   --version             show program's version number and exit
 ```
 
-Example usage:
+Example usage (xiFDR version < 2.2.1):
 
 ```
 python xiFdrExporter_msannika.py XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
@@ -198,6 +201,18 @@ Or using the Windows binary:
 
 ```
 xiFdrExporter_msannika.exe XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
+```
+
+Example usage (xiFDR version 2.2.1 or later):
+
+```
+python xiFdr2.2.1Exporter_msannika.py XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
+```
+
+Or using the Windows binary:
+
+```
+xiFdr2.2.1Exporter_msannika.exe XLpeplib_Beveridge_QEx-HFX_DSS_R1.xlsx
 ```
 
 ## Export to [PyXlinkViewer for pyMOL](https://github.com/BobSchiffrin/PyXlinkViewer)

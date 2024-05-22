@@ -174,7 +174,7 @@ EXPORTER DESCRIPTION:
 A script to export MS Annika CSM results (.xlsx) to a xiFDR input file (.csv).
 CSMs should be unfiltered, therefore include decoys and not be validated for any
 FDR.
-Warning: This exporter currently only reports one/the first protein for
+Warning: Exporter for xiFDR < 2.2.1 currently only reports one/the first protein for
          ambiguous peptides that are found in more than one protein!
 USAGE:
 xiFdrExporter_msannika.py f [f]

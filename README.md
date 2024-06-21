@@ -57,7 +57,7 @@ Results can then be exported by selecting `File > Export > To Microsoft Excel…
   python xiViewExporter_msannika.py result.xlsx -fasta seq.fasta
   ```
 - **Exporting to [xiFDR](https://github.com/Rappsilber-Laboratory/xiFDR)**  
-  Files needed:
+  Files needed (requires MS Annika 3.0.2 or later):
   - result.xlsx - MS Annika CSM result file (unvalidated) exported to .xlsx
   ```
   # for xiFDR version < 2.2.1
@@ -168,6 +168,8 @@ xiViewExporter_msannika.exe "202001216_nsp8_trypsin_XL_REP1.xlsx" "202001216_nsp
 ```
 
 ## Export to [xiFDR](https://github.com/Rappsilber-Laboratory/xiFDR)
+
+**Exporting to and validation with xiFDR requires MS Annika 3.0.2 or later!**
 
 ```
 EXPORTER DESCRIPTION:

@@ -8,7 +8,7 @@
 import argparse
 import pandas as pd
 
-__version = "1.0.3"
+__version = "1.0.2"
 __date = "202405017"
 
 """
@@ -66,10 +66,6 @@ class MSAnnika_Exporter:
         df["is decoy 2"] = df["Beta T/D"].apply(lambda x: "false" if "t" in str(x).lower() else "true")
         df["peptide position 1"] = df["peptide position 1"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
         df["peptide position 2"] = df["peptide position 2"].apply(lambda x: ";".join([str(int(y) + 1) for y in str(x).split(";")]))
-        df["name1"] = df["accession1"]
-        df["name2"] = df["accession2"]
-        df["description1"] = df["accession1"]
-        df["description2"] = df["accession2"]
 
         return df
 

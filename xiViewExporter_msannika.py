@@ -7,10 +7,11 @@
 
 import argparse
 import pandas as pd
+from Bio import SeqIO
 from typing import List
 
-__version = "1.0.0"
-__date = "20221020"
+__version = "1.1.0"
+__date = "20250116"
 
 """
 DESCRIPTION:
@@ -52,20 +53,13 @@ class MSAnnika_Exporter:
         # read fasta file
         sequences = dict()
 
-        with open(fasta_file, "r", encoding = "utf-8") as f:
-            fasta_data = f.read()
-            f.close()
-
-        for entry in fasta_data.split(">"):
-            lines = entry.split("\n")
-            if lines[0].strip() != "":
-                description = lines[0].strip()
-                identifier = lines[0].strip().split("|")[1].strip()
-                sequence = "".join([x.strip() for x in lines[1:]])
-                if identifier not in sequences:
-                    sequences[identifier] = {"description": description, "sequence": sequence}
-                else:
-                    print("WARNING: Identifier " + identifier + " is not unique!")
+        for entry in SeqIO.parse(fasta_file, "fasta"):
+            identifier = str(entry.id).split("|")[1].strip()
+            sequence = str(entry.seq)
+            if identifier not in sequences:
+                sequences[identifier] = {"sequence": sequence}
+            else:
+                print("WARNING: Identifier " + identifier + " is not unique!")
 
         self.database = sequences
 
@@ -135,25 +129,15 @@ class MSAnnika_Exporter:
 
         return result
 
-    def __generate_fasta_str(self) -> str:
-        fasta_str = ""
-        for key in self.database:
-            fasta_str = fasta_str + ">" + self.database[key]["description"] + "\n" + self.database[key]["sequence"] + "\n"
-        return fasta_str
-
     # export function, takes one argument "output_file" which sets the prefix
     # of generated output files
     def export(self, output_file = None, format = "xiVIEW") -> None:
         csv = self.__generate_csv_df()
-        fasta = self.__generate_fasta_str()
 
         if output_file == None:
             output_file = self.input_files[0].split(".")[0]
 
         csv.to_csv(output_file + ".csv", index = False)
-        with open(output_file + ".fasta", "w", encoding = "utf-8") as f:
-            f.write(fasta)
-            f.close()
 
 # initialize exporter and export xiVIEW files
 def main() -> None:

@@ -25,7 +25,7 @@ xiViewExporter_msannika.py f [f ...]
                              [--version]
 positional arguments:
   f                     MS Annika crosslink result files in Microsoft Excel
-                        format (.xlsx) to process.
+                        format (.xlsx) to process. Decoys should be excluded!
 required arguments:
   -fasta FASTAFILE, --fasta FASTAFILE
                         Fasta file used for crosslink search. Must contain

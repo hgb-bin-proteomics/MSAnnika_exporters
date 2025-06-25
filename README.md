@@ -6,7 +6,7 @@ Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink re
 
 > [!WARNING]
 > MS Annika exporters is no longer maintained! All export options have been moved to [pyXLMS](https://github.com/hgb-bin-proteomics/pyXLMS)!
-> Please consider using pyXLMS instead!
+> Please consider using [pyXLMS](https://github.com/hgb-bin-proteomics/pyXLMS) instead!
 
 ## Requirements
 

@@ -2,6 +2,12 @@
 
 Export [MS Annika](https://ms.imp.ac.at/index.php?action=ms-annika) crosslink results to different file formats for different down-stream analysis tools.
 
+## [DEPRECATION NOTICE]
+
+> [!WARNING]
+> MS Annika exporters is no longer maintained! All export options have been moved to [pyXLMS](https://github.com/hgb-bin-proteomics/pyXLMS)!
+> Please consider using pyXLMS instead!
+
 ## Requirements
 
 Python 3.7+ installation with pandas, openpyxl, biopython and biopandas to run the scripts or to use the Proteome Discoverer Scripting Nodes.
